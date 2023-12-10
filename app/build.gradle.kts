@@ -7,6 +7,10 @@ android {
     namespace = "com.first.myapplication"
     compileSdk = 34
 
+    buildFeatures{
+        buildConfig=true
+    }
+
     defaultConfig {
         applicationId = "com.first.myapplication"
         minSdk = 31
@@ -14,6 +18,7 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
