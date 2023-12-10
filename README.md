@@ -1,1 +1,1 @@
-# JAVA2 IU-Hochschule app
+# JAVA2 IU-Hochschule "Who wants to be a millionaire APP"
