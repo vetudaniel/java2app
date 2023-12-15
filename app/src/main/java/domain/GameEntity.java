@@ -1,8 +1,13 @@
 package domain;
 
-import java.util.List;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+import java.util.List;
+@Entity
 public class GameEntity {
+    @PrimaryKey(autoGenerate = true)
+    public int id;
     private static PlayerEntity player;
     private static List<QuestionEntity> questions;
     private int round;
