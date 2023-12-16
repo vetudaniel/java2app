@@ -1,15 +1,28 @@
 package domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+
+
+@Entity(tableName = "jokers")
 public class JokerEntity {
+    @PrimaryKey(autoGenerate = true)
+    private int jokerId;
+    @ColumnInfo(name = "isUsed")
     private boolean isUsed;
-    private final List<QuestionEntity> questions;
 
     public JokerEntity(boolean isUsed) {
         this.isUsed = isUsed;
-        this.questions = new ArrayList<QuestionEntity>();
+    }
+
+    public int getJokerId() {
+        return jokerId;
+    }
+
+    public void setJokerId(int jokerId) {
+        this.jokerId = jokerId;
     }
 
     public boolean isUsed() {
@@ -20,7 +33,4 @@ public class JokerEntity {
         isUsed = used;
     }
 
-    public List<QuestionEntity> getQuestions() {
-        return questions;
-    }
 }

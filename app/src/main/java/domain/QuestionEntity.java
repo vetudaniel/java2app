@@ -1,6 +1,12 @@
 package domain;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "questions")
 public class QuestionEntity {
+    @PrimaryKey(autoGenerate = true)
+    private int questionId;
     private final String question;
     private final String category;
     private final String answer;
@@ -27,5 +33,24 @@ public class QuestionEntity {
 
     public int getDifficulty(){
         return difficulty;
+    }
+
+    public int getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(int questionId) {
+        this.questionId = questionId;
+    }
+
+    @Override
+    public String toString() {
+        return "QuestionEntity{" +
+                "id=" + questionId +
+                ", question='" + question + '\'' +
+                ", category='" + category + '\'' +
+                ", answer='" + answer + '\'' +
+                ", difficulty=" + difficulty +
+                '}';
     }
 }

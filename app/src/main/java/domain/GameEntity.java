@@ -1,15 +1,15 @@
 package domain;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.util.List;
-@Entity
+@Entity(tableName = "games")
 public class GameEntity {
     @PrimaryKey(autoGenerate = true)
     public int id;
-    private static PlayerEntity player;
-    private static List<QuestionEntity> questions;
+    @ColumnInfo(name = "round")
     private int round;
 
     public GameEntity(int round) {
@@ -24,10 +24,12 @@ public class GameEntity {
         return round;
     }
 
-    public GameEntity startGame(PlayerEntity player, List<QuestionEntity> questions){
-        this.player = player;
-        this.questions = questions;
-        return this;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
