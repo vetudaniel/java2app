@@ -3,6 +3,7 @@ package service;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -15,11 +16,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.first.myapplication.App;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +52,33 @@ public class QuestionsService {
     }
     private QuestionsService(){}
 
-    public QuestionEntity jsonToQuestion(JSONObject jsonObject) throws JSONException {
+    public void saveQuestions(AssetManager as) {
+        try{
+            InputStream inputStream = as.open("questions.json");
+            int size = inputStream.available();
+            byte[] buffer = new byte[size];
+            inputStream.read(buffer);
+            inputStream.close();
+            String jsonString = new String(buffer, "UTF-8");
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<QuestionEntity>>() {}.getType();
+            List<QuestionEntity> questionEntities = gson.fromJson(jsonString, listType);
+            for (QuestionEntity q : questionEntities){
+                Random random = new Random();
+                //   Generate a random integer between 1 and 3
+                int randomNumber = random.nextInt(3) + 1;
+                q.setDifficulty(randomNumber);
+            }
+            new Thread(() -> {
+               questionsDao.saveAll(questionEntities);
+            }).start();
+        }catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+   /* public QuestionEntity jsonToQuestion(JSONObject jsonObject) throws JSONException {
         Random random = new Random();
         // Generate a random integer between 1 and 5
         int randomNumber = random.nextInt(5) + 1;
@@ -75,7 +107,5 @@ public class QuestionsService {
             }
         });
 
-    }
-
-
+    }*/
 }

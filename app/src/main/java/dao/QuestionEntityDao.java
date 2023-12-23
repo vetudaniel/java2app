@@ -1,5 +1,7 @@
 package dao;
 
+import android.content.ContentProviderClient;
+
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -17,4 +19,8 @@ public interface QuestionEntityDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertQuestions(QuestionEntity... questions);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public void saveAll(List<QuestionEntity> questions);
+
 }

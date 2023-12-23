@@ -2,54 +2,65 @@ package domain;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import java.util.List;
+
+import domain.typeconverters.AnswersListConverter;
 
 @Entity(tableName = "questions")
 public class QuestionEntity {
     @PrimaryKey(autoGenerate = true)
     private int questionId;
     private final String question;
-    private final String category;
-    private final String answer;
-    private final int difficulty;
+    @TypeConverters(AnswersListConverter.class)
+    public List<String> answers;
 
-    public QuestionEntity(String question, String category, String answer, int difficulty) {
+    private final int correctAnswer;
+    private int difficulty;
+
+    public QuestionEntity(String question, List<String> answers,int correctAnswer, int difficulty) {
         this.question = question;
-        this.category = category;
-        this.answer = answer;
+        this.answers = answers;
+        this.correctAnswer = correctAnswer;
         this.difficulty = difficulty;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public int getDifficulty(){
-        return difficulty;
-    }
-
-    public int getQuestionId() {
-        return questionId;
     }
 
     public void setQuestionId(int questionId) {
         this.questionId = questionId;
     }
 
+    public int getQuestionId() {
+        return questionId;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public List<String> getAnswers() {
+        return answers;
+    }
+
+    public int getCorrectAnswer() {
+        return correctAnswer;
+    }
+
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+    }
+
     @Override
     public String toString() {
         return "QuestionEntity{" +
-                "id=" + questionId +
+                "questionId=" + questionId +
                 ", question='" + question + '\'' +
-                ", category='" + category + '\'' +
-                ", answer='" + answer + '\'' +
+                ", answers='" + answers + '\'' +
+                ", correctAnswer=" + correctAnswer +
                 ", difficulty=" + difficulty +
                 '}';
     }

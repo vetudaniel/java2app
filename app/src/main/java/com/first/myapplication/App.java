@@ -2,6 +2,7 @@ package com.first.myapplication;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.AssetManager;
 
 import androidx.room.Room;
 import db.AppDatabase;
@@ -12,6 +13,7 @@ public class App extends Application {
     private static  AppDatabase dbInstance;
 
     private static Context context;
+
 
     @Override
     public void onCreate() {
@@ -33,4 +35,5 @@ public class App extends Application {
     public static Context getAppContext() {
         return App.context;
     }
+
 }

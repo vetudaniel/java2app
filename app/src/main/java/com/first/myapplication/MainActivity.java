@@ -38,11 +38,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Button button12 = findViewById(R.id.button12);
         APIService apiService = APIService.getInstance();
+        QuestionsService qs = QuestionsService.getInstance();
+       //getApplicationContext().deleteDatabase("millionaire");
+       qs.saveQuestions(getAssets());
 
         button12.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               apiService.saveQuestions();
+
             }
         });
     }

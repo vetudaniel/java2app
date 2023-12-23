@@ -1,3 +1,4 @@
+/*
 package service;
 
 import android.content.Context;
@@ -47,40 +48,39 @@ public class APIService {
     }
 
     public void  saveQuestions(){
-        RequestQueue queue = Volley.newRequestQueue(context);
-        JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, API_URL, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
+       RequestQueue queue = Volley.newRequestQueue(context);
+       JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, API_URL, null,
+           new Response.Listener<JSONArray>() {
+              @Override
+                public void onResponse(JSONArray response) {
                         // Handle the JSON response
-                        Log.d(tag, response.toString());
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-                                JSONObject obj = response.getJSONObject(i);
-                                QuestionEntity question = qs.jsonToQuestion(obj);
-                                qs.save(question);
-                            } catch (JSONException e) {
-                                throw new RuntimeException(e);
-                            }
+                    Log.d(tag, response.toString());
+                      for (int i = 0; i < response.length(); i++) {
+                         try {
+                             JSONObject obj = response.getJSONObject(i);
+                          QuestionEntity question = qs.jsonToQuestion(obj);
+                            qs.save(question);
+                          } catch (JSONException e) {
+                           throw new RuntimeException(e);
                         }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Handle errors
-                        Log.e(tag, "Error: " + error.toString());
-                    }
-                }) {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("X-Api-Key", getApiKey());
-                return headers;
-            }
-        };
+                     }
+                  }
+               },
+              new Response.ErrorListener() {
+                  @Override
+                 public void onErrorResponse(VolleyError error) {
+                      // Handle errors
+                    Log.e(tag, "Error: " + error.toString());
+                  }
+               }) {
+           @Override
+           public Map<String, String> getHeaders() {
+              Map<String, String> headers = new HashMap<>();
+               return headers;
+           }
+     };
 
-        queue.add(jsonRequest);
+     queue.add(jsonRequest);
     }
 //private constructor so others cannot use it
     private APIService(){
@@ -93,3 +93,4 @@ public class APIService {
 
 
 }
+*/
