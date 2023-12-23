@@ -37,6 +37,10 @@ public class QuestionsService {
     //Initialize the service only once
     private static final QuestionsService instance = new QuestionsService();
 
+    private static final AppDatabase db = App.getDb();
+
+    private static final QuestionEntityDao questionsDao = db.questionEntityDao();
+
     public static QuestionsService getInstance(){
         return instance;
     }
@@ -61,7 +65,6 @@ public class QuestionsService {
         eS.execute(new Runnable() {
             @Override
             public void run() {
-                QuestionEntityDao questionsDao = database.questionEntityDao();
                 questionsDao.insertQuestions(question);
                 handler.post(new Runnable() {
                     @Override
