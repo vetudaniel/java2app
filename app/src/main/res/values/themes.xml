@@ -2,13 +2,17 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.MyApplication" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <item name="colorPrimary">@color/green</item>
-        <item name="android:navigationBarColor">@color/green</item>
-        <item name="android:statusBarColor">@color/green</item>
-        <item name="android:textColor">@color/orange</item>
+        <item name="colorPrimary">#8D6FD6</item>
+        <item name="android:navigationBarColor">#AFB42B</item>
+        <item name="android:statusBarColor">#8D6FD6</item>
+        <item name="android:textColor">#D62626</item>
+        <item name="materialButtonStyle">@style/kekw</item>
 
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.MyApplication" parent="Base.Theme.MyApplication" />
+    <style name="kekw" parent="@style/Widget.Material3.Button">
+        <item name="colorPrimary">#C2185B</item>
+        <item name="android:textColor">@color/my_button_color</item>
+    </style>
 </resources>

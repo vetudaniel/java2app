@@ -41,7 +41,7 @@ public class PlayerService {
         eS.execute(new Runnable() {
             @Override
             public void run() {
-                playerDao.insertPlayers(player);
+                playerDao.insertPlayer(player);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -50,6 +50,5 @@ public class PlayerService {
                 });
             }
         });
-
     }
 }

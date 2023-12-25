@@ -4,48 +4,37 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import domain.PlayerEntity;
+import service.PlayerService;
 
-import dao.QuestionEntityDao;
-import db.AppDatabase;
-import domain.QuestionEntity;
-import service.APIService;
-import service.QuestionsService;
 
 public class MainActivity extends AppCompatActivity {
-
-    RoomDatabase.Callback dbCallBack = new RoomDatabase.Callback() {
-        @Override
-        public void onCreate(@NonNull SupportSQLiteDatabase db) {
-            super.onCreate(db);
-        }
-        @Override
-        public void onOpen(@NonNull SupportSQLiteDatabase db) {
-            super.onOpen(db);
-        }
-    };
+    PlayerService ps = PlayerService.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button button12 = findViewById(R.id.button12);
-        APIService apiService = APIService.getInstance();
-        QuestionsService qs = QuestionsService.getInstance();
-       //getApplicationContext().deleteDatabase("millionaire");
-       qs.saveQuestions(getAssets());
+        Button startGame = findViewById(R.id.startGame);
+        TextView userName = findViewById(R.id.userName);
 
-        button12.setOnClickListener(new View.OnClickListener() {
+        userName.setSelectAllOnFocus(true);
+
+        startGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String user = userName.getText().toString();
+                PlayerEntity newPlayer = new PlayerEntity(user);
+                ps.save(newPlayer);
+                Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                intent.putExtra("username", user);
+                startActivity(intent);
             }
         });
     }
