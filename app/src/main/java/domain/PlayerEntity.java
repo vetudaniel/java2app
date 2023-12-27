@@ -1,19 +1,23 @@
 package domain;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "players")
 public class PlayerEntity {
-    @PrimaryKey(autoGenerate = true)
-    private int id;
+
+    @PrimaryKey
+    @NonNull
+    private String playerId;
     private final String name;
     private boolean hasWon;
     private boolean hasLost;
     private static int score;
 
-    public PlayerEntity(String name) {
+    public PlayerEntity(String playerId,String name) {
+        this.playerId = playerId;
         this.name = name;
         this.hasWon = false;
         this.hasLost = false;
@@ -23,12 +27,12 @@ public class PlayerEntity {
         return name;
     }
 
-    public int getId() {
-        return id;
+    public String getPlayerId() {
+        return playerId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPlayerId(String playerId) {
+        this.playerId = playerId;
     }
 
     public boolean isHasWon() {
@@ -53,5 +57,15 @@ public class PlayerEntity {
 
     public static void setScore(int score) {
         PlayerEntity.score = score;
+    }
+
+    @Override
+    public String toString() {
+        return "PlayerEntity{" +
+                "playerId='" + playerId + '\'' +
+                ", name='" + name + '\'' +
+                ", hasWon=" + hasWon +
+                ", hasLost=" + hasLost +
+                '}';
     }
 }

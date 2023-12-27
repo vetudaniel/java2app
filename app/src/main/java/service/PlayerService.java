@@ -3,8 +3,14 @@ package service;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import com.first.myapplication.App;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,11 +24,13 @@ import dao.QuestionEntityDao;
 import db.AppDatabase;
 import domain.PlayerEntity;
 import domain.QuestionEntity;
+import service.interfaces.FetchPlayerCallback;
 
 public class PlayerService {
 
     private static final Context context = App.getAppContext();
     private static final PlayerService instance = new PlayerService();
+    private static final GameService gs = GameService.getInstance();
 
     private static final AppDatabase db = App.getDb();
 
@@ -45,10 +53,13 @@ public class PlayerService {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        System.out.println("Saved to DB");
+                        System.out.println("Player Saved to DB");
                     }
                 });
             }
         });
+        eS.shutdown();
     }
+
+
 }

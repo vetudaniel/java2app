@@ -9,6 +9,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -16,6 +18,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.first.myapplication.App;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -37,6 +42,7 @@ import java.util.concurrent.Executors;
 import dao.QuestionEntityDao;
 import db.AppDatabase;
 import domain.QuestionEntity;
+import service.interfaces.FetchPlayerCallback;
 
 public class QuestionsService {
     private static final Context context = App.getAppContext();
@@ -108,4 +114,25 @@ public class QuestionsService {
         });
 
     }*/
+
+    public void kkk (FetchPlayerCallback callback){
+        ListenableFuture<QuestionEntity> futureQuestion = questionsDao.getFirstDifficultyQuestion();
+        Futures.addCallback(futureQuestion, new FutureCallback<QuestionEntity>() {
+            @Override
+            public void onSuccess(@Nullable QuestionEntity user) {
+                if (user != null) {
+                    callback.onQuestionFetched(user);
+                } else {
+                    // Handle the case when user is null (e.g., user not found)
+                    callback.onError(new Exception("User not found"));
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                callback.onError(t);
+            }
+        }, Executors.newSingleThreadExecutor());
+
+    }
 }

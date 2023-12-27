@@ -7,6 +7,8 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import com.google.common.util.concurrent.ListenableFuture;
+
 import java.util.List;
 
 import domain.PlayerEntity;
@@ -22,5 +24,8 @@ public interface QuestionEntityDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void saveAll(List<QuestionEntity> questions);
+
+    @Query("SELECT * FROM questions WHERE difficulty = 1 LIMIT 1")
+    ListenableFuture<QuestionEntity> getFirstDifficultyQuestion();
 
 }

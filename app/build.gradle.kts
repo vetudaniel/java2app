@@ -39,10 +39,12 @@ android {
 
 dependencies {
     implementation("androidx.navigation:navigation-fragment:2.7.5")
+    implementation("com.google.guava:guava:33.0.0-android")
     implementation("androidx.navigation:navigation-ui:2.7.5")
     val roomVersion = "2.6.1"
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-guava:$roomVersion")
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")

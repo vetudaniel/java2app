@@ -5,15 +5,16 @@ import androidx.room.Relation;
 
 import java.util.List;
 
+import domain.GameEntity;
 import domain.JokerEntity;
 import domain.QuestionEntity;
 
-public class JokerAndQuestions {
+public class GameAndJoker {
     @Embedded
-    public JokerEntity joker;
+    public GameEntity game;
     @Relation(
-            parentColumn = "jokerId",
-            entityColumn = "jokerOwnerId"
+            parentColumn = "gameId",
+            entityColumn = "gameId"
     )
-    public List<QuestionEntity> questions;
+    public JokerEntity joker;
 }

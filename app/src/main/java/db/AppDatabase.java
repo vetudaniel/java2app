@@ -11,7 +11,7 @@ import domain.JokerEntity;
 import domain.PlayerEntity;
 import domain.QuestionEntity;
 
-@Database(entities = {GameEntity.class, JokerEntity.class, PlayerEntity.class, QuestionEntity.class}, version = 1)
+@Database(entities = {GameEntity.class, JokerEntity.class, PlayerEntity.class, QuestionEntity.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract GameEntityDao gameEntityDao();
     public abstract JokerEntityDao jokerEntityDao();
