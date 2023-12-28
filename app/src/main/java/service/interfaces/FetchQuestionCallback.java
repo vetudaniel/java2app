@@ -1,9 +1,8 @@
 package service.interfaces;
 
-import domain.PlayerEntity;
 import domain.QuestionEntity;
 
-public interface FetchPlayerCallback {
+public interface FetchQuestionCallback {
     void onQuestionFetched(QuestionEntity questionEntity);
     void onError(Throwable t);
 }

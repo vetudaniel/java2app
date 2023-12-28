@@ -20,6 +20,8 @@ public class GameEntity {
     @ColumnInfo(name = "round")
     private int round;
 
+    private int currentPrize;
+
     public GameEntity(int round) {
         this.round = round;
     }
@@ -46,6 +48,14 @@ public class GameEntity {
 
     public void setPlayerId(String playerId) {
         this.playerId = playerId;
+    }
+
+    public int getCurrentPrize() {
+        return currentPrize;
+    }
+
+    public void setCurrentPrize(int currentPrize) {
+        this.currentPrize = currentPrize;
     }
 
     @Override

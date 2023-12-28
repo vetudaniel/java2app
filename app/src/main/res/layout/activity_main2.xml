@@ -6,10 +6,125 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity2">
 
+    <Button
+        android:id="@+id/answer1"
+        android:layout_width="360dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="81dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="8dp"
+        android:text="Button"
+        app:layout_constraintBottom_toTopOf="@+id/answer2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/joker"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/answer2"
+        android:layout_width="351dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginBottom="12dp"
+        android:text="Button"
+        app:layout_constraintBottom_toTopOf="@+id/answer3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/answer4"
+        android:layout_width="344dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="28dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/answer3"
+        android:layout_width="363dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="12dp"
+        android:text="Answer 3"
+        app:layout_constraintBottom_toTopOf="@+id/answer4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.083"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
-        android:id="@+id/qwe"
+        android:id="@+id/question"
+        android:layout_width="220dp"
+        android:layout_height="144dp"
+        android:layout_marginStart="86dp"
+        android:layout_marginTop="164dp"
+        android:layout_marginEnd="87dp"
+        android:layout_marginBottom="159dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/answer1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/currentPrize" />
+
+    <TextView
+        android:id="@+id/round"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Placeholder Text" />
+        android:layout_marginStart="167dp"
+        android:layout_marginEnd="168dp"
+        android:layout_marginBottom="15dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/currentPrize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playerName" />
 
+    <TextView
+        android:id="@+id/playerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="167dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="168dp"
+        android:layout_marginBottom="15dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/round"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/currentPrize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="167dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="168dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/round" />
+
+    <Button
+        android:id="@+id/joker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="139dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="139dp"
+        android:text="Use 50/50"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/question" />
 </androidx.constraintlayout.widget.ConstraintLayout>

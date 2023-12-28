@@ -3,28 +3,15 @@ package service;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
-
-import androidx.annotation.Nullable;
 
 import com.first.myapplication.App;
-import com.google.common.util.concurrent.FutureCallback;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import dao.PlayerEntityDao;
-import dao.QuestionEntityDao;
 import db.AppDatabase;
 import domain.PlayerEntity;
-import domain.QuestionEntity;
-import service.interfaces.FetchPlayerCallback;
 
 public class PlayerService {
 

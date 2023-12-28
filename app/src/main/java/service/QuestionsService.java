@@ -1,22 +1,10 @@
 package service;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 import com.first.myapplication.App;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
@@ -24,25 +12,17 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import dao.QuestionEntityDao;
 import db.AppDatabase;
 import domain.QuestionEntity;
-import service.interfaces.FetchPlayerCallback;
+import service.interfaces.FetchQuestionCallback;
 
 public class QuestionsService {
     private static final Context context = App.getAppContext();
@@ -115,19 +95,17 @@ public class QuestionsService {
 
     }*/
 
-    public void kkk (FetchPlayerCallback callback){
-        ListenableFuture<QuestionEntity> futureQuestion = questionsDao.getFirstDifficultyQuestion();
+    public void getQuestionsByDifficulty (int difficulty, FetchQuestionCallback callback){
+        ListenableFuture<QuestionEntity> futureQuestion = questionsDao.getQuestionsByDifficulty(difficulty);
         Futures.addCallback(futureQuestion, new FutureCallback<QuestionEntity>() {
             @Override
-            public void onSuccess(@Nullable QuestionEntity user) {
-                if (user != null) {
-                    callback.onQuestionFetched(user);
+            public void onSuccess(@Nullable QuestionEntity questions) {
+                if (questions != null) {
+                    callback.onQuestionFetched(questions);
                 } else {
-                    // Handle the case when user is null (e.g., user not found)
-                    callback.onError(new Exception("User not found"));
+                    callback.onError(new Exception("Questions not found"));
                 }
             }
-
             @Override
             public void onFailure(Throwable t) {
                 callback.onError(t);

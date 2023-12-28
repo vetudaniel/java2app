@@ -1,14 +1,15 @@
 package service;
 
-import static android.content.Intent.getIntent;
-
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import com.first.myapplication.App;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -19,8 +20,9 @@ import dao.PlayerEntityDao;
 import db.AppDatabase;
 import domain.GameEntity;
 import domain.JokerEntity;
-import domain.PlayerEntity;
-import service.interfaces.FetchPlayerCallback;
+import domain.QuestionEntity;
+import service.interfaces.FetchGameCallback;
+import service.interfaces.FetchQuestionCallback;
 
 public class GameService {
 
@@ -48,11 +50,11 @@ public class GameService {
         eS.execute(new Runnable() {
             @Override
             public void run() {
-                GameEntity game = new GameEntity(0);
+                GameEntity game = new GameEntity(1);
                 JokerEntity joker = new JokerEntity(false);
                 game.setPlayerId(playerDao.getPlayerById(playerId).getPlayerId());
-                long gameid = gameDao.insertGame(game);
-                joker.setGameId((int)gameid);
+                long gameId = gameDao.insertGame(game);
+                joker.setGameId((int)gameId);
                 jokerDao.inserJoker(joker);
 
                 handler.post(new Runnable() {
@@ -65,6 +67,25 @@ public class GameService {
         });
 
         eS.shutdown();
+
+    }
+
+    public void getGameByPlayerId (String playerId, FetchGameCallback callback){
+        ListenableFuture<GameEntity> futureGame = gameDao.getGameByPlayerId(playerId);
+        Futures.addCallback(futureGame, new FutureCallback<GameEntity>() {
+            @Override
+            public void onSuccess(@Nullable GameEntity game) {
+                if (game != null) {
+                    callback.onGameFetched(game);
+                } else {
+                    callback.onError(new Exception("Game not found"));
+                }
+            }
+            @Override
+            public void onFailure(Throwable t) {
+                callback.onError(t);
+            }
+        }, Executors.newSingleThreadExecutor());
 
     }
 

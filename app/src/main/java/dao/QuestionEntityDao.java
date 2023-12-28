@@ -25,7 +25,8 @@ public interface QuestionEntityDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void saveAll(List<QuestionEntity> questions);
 
-    @Query("SELECT * FROM questions WHERE difficulty = 1 ORDER BY RANDOM() LIMIT 1")
-    ListenableFuture<QuestionEntity> getFirstDifficultyQuestion();
+    @Query("SELECT * FROM questions WHERE difficulty = :difficulty ORDER BY RANDOM() LIMIT 1")
+    ListenableFuture<QuestionEntity> getQuestionsByDifficulty(int difficulty);
+
 
 }

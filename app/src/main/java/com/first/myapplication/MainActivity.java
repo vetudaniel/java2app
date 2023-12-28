@@ -27,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Button startGame = findViewById(R.id.startGame);
         TextView userName = findViewById(R.id.userName);
-   // getApplicationContext().deleteDatabase("millionaire");
-   qs.saveQuestions(getAssets());
+  //getApplicationContext().deleteDatabase("millionaire");
+  qs.saveQuestions(getAssets());
         userName.setSelectAllOnFocus(true);
 
         startGame.setOnClickListener(new View.OnClickListener() {
