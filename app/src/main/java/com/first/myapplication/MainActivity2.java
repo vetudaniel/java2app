@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import dao.PlayerEntityDao;
@@ -44,6 +46,7 @@ public class MainActivity2 extends AppCompatActivity {
         Button answer2 = findViewById(R.id.answer2);
         Button answer3 = findViewById(R.id.answer3);
         Button answer4 = findViewById(R.id.answer4);
+        Button joker = findViewById(R.id.joker);
         qs.getQuestionsByDifficulty(1, new FetchQuestionCallback() {
             @Override
             public void onQuestionFetched(QuestionEntity questionEntity) {
@@ -58,8 +61,9 @@ public class MainActivity2 extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         System.out.println(questionEntity.getAnswers().get(0));
-                        if(questionEntity.getCorrectAnswer() == questionEntity.getAnswers().indexOf(questionEntity.getAnswers().get(0))){
-                            System.out.println("GZ. Correct Answer. Moving to Round 2");
+                        if(questionEntity.getCorrectAnswer() != questionEntity.getAnswers().indexOf(questionEntity.getAnswers().get(0))){
+                            Intent intent = new Intent(MainActivity2.this, GameOverActivity.class);
+                            startActivity(intent);
                         }
                         System.out.println("Wrong answer.Game over");
                     }
@@ -67,8 +71,9 @@ public class MainActivity2 extends AppCompatActivity {
                 answer2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(questionEntity.getCorrectAnswer() ==  questionEntity.getAnswers().indexOf(questionEntity.getAnswers().get(1))){
-                            System.out.println("GZ. Correct Answer. Moving to Round 2");
+                        if(questionEntity.getCorrectAnswer() !=  questionEntity.getAnswers().indexOf(questionEntity.getAnswers().get(1))){
+                            Intent intent = new Intent(MainActivity2.this, GameOverActivity.class);
+                            startActivity(intent);
                         }
                         System.out.println("Wrong answer.Game over");
                     }
@@ -76,8 +81,9 @@ public class MainActivity2 extends AppCompatActivity {
                 answer3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(questionEntity.getCorrectAnswer() == questionEntity.getAnswers().indexOf(questionEntity.getAnswers().get(2))){
-                            System.out.println("GZ. Correct Answer. Moving to Round 2");
+                        if(questionEntity.getCorrectAnswer() != questionEntity.getAnswers().indexOf(questionEntity.getAnswers().get(2))){
+                            Intent intent = new Intent(MainActivity2.this, GameOverActivity.class);
+                            startActivity(intent);
                         }
                         System.out.println("Wrong answer.Game over");
                     }
@@ -85,12 +91,32 @@ public class MainActivity2 extends AppCompatActivity {
                 answer4.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(questionEntity.getCorrectAnswer() == questionEntity.getAnswers().indexOf(questionEntity.getAnswers().get(3))){
-                            System.out.println("GZ. Correct Answer. Moving to Round 2");
+                        if(questionEntity.getCorrectAnswer() != questionEntity.getAnswers().indexOf(questionEntity.getAnswers().get(3))){
+                            Intent intent = new Intent(MainActivity2.this, GameOverActivity.class);
+                            startActivity(intent);
                         }
                         System.out.println("Wrong answer.Game over");
                     }
                 });
+                joker.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int correctAnswer = questionEntity.getCorrectAnswer();
+                        List<Button> answerButtons = new ArrayList<>();
+                        answerButtons.add(answer1);
+                        answerButtons.add(answer2);
+                        answerButtons.add(answer3);
+                        answerButtons.add(answer4);
+                        int removedCount = 0;
+                        for(Button b : answerButtons){
+                            if( answerButtons.indexOf(b) != correctAnswer && removedCount < 2){
+                                b.setVisibility(View.GONE);
+                                removedCount++;
+                            }
+                        }
+                    }
+                });
+
             }
             @Override
             public void onError(Throwable t) {
