@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.UUID;
 
 import domain.PlayerEntity;
+import service.GameService;
 import service.PlayerService;
 import service.QuestionsService;
 
@@ -20,6 +21,7 @@ import service.QuestionsService;
 public class MainActivity extends AppCompatActivity {
     PlayerService ps = PlayerService.getInstance();
     QuestionsService qs = QuestionsService.getInstance();
+    GameService gs = GameService.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

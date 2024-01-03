@@ -17,7 +17,6 @@ public class GameEntity {
     public int gameId;
 
     public String playerId;
-    @ColumnInfo(name = "round")
     private int round;
 
     private int currentPrize;

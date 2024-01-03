@@ -29,6 +29,8 @@ public class MainActivity2 extends AppCompatActivity {
     private static final PlayerService ps = PlayerService.getInstance();
     private static final PlayerEntityDao playerDao = db.playerEntityDao();
     private static final QuestionsService qs = QuestionsService.getInstance();
+    static GameEntity newGame = new GameEntity(1);
+    static int jokerCounter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,6 @@ public class MainActivity2 extends AppCompatActivity {
         Intent intent = getIntent();
         String playerName = intent.getStringExtra("username");
         String playerId = intent.getStringExtra("playerId");
-        gs.startGame(playerId);
         TextView question = findViewById(R.id.question);
         TextView player = findViewById(R.id.playerName);
         TextView round = findViewById(R.id.round);
@@ -47,99 +48,177 @@ public class MainActivity2 extends AppCompatActivity {
         Button answer3 = findViewById(R.id.answer3);
         Button answer4 = findViewById(R.id.answer4);
         Button joker = findViewById(R.id.joker);
-        qs.getQuestionsByDifficulty(1, new FetchQuestionCallback() {
-            @Override
-            public void onQuestionFetched(QuestionEntity questionEntity) {
-                question.setText(questionEntity.getQuestion());
-                for(int i = 0; i < questionEntity.getAnswers().size(); ++i){
-                    answer1.setText(questionEntity.getAnswers().get(0));
-                    answer2.setText(questionEntity.getAnswers().get(1));
-                    answer3.setText(questionEntity.getAnswers().get(2));
-                    answer4.setText(questionEntity.getAnswers().get(3));
-                }
-                answer1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        System.out.println(questionEntity.getAnswers().get(0));
-                        if(questionEntity.getCorrectAnswer() != questionEntity.getAnswers().indexOf(questionEntity.getAnswers().get(0))){
-                            Intent intent = new Intent(MainActivity2.this, GameOverActivity.class);
-                            startActivity(intent);
-                        }
-                        System.out.println("Wrong answer.Game over");
-                    }
-                });
-                answer2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(questionEntity.getCorrectAnswer() !=  questionEntity.getAnswers().indexOf(questionEntity.getAnswers().get(1))){
-                            Intent intent = new Intent(MainActivity2.this, GameOverActivity.class);
-                            startActivity(intent);
-                        }
-                        System.out.println("Wrong answer.Game over");
-                    }
-                });
-                answer3.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(questionEntity.getCorrectAnswer() != questionEntity.getAnswers().indexOf(questionEntity.getAnswers().get(2))){
-                            Intent intent = new Intent(MainActivity2.this, GameOverActivity.class);
-                            startActivity(intent);
-                        }
-                        System.out.println("Wrong answer.Game over");
-                    }
-                });
-                answer4.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(questionEntity.getCorrectAnswer() != questionEntity.getAnswers().indexOf(questionEntity.getAnswers().get(3))){
-                            Intent intent = new Intent(MainActivity2.this, GameOverActivity.class);
-                            startActivity(intent);
-                        }
-                        System.out.println("Wrong answer.Game over");
-                    }
-                });
-                joker.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int correctAnswer = questionEntity.getCorrectAnswer();
-                        List<Button> answerButtons = new ArrayList<>();
-                        answerButtons.add(answer1);
-                        answerButtons.add(answer2);
-                        answerButtons.add(answer3);
-                        answerButtons.add(answer4);
-                        int removedCount = 0;
-                        for(Button b : answerButtons){
-                            if( answerButtons.indexOf(b) != correctAnswer && removedCount < 2){
-                                b.setVisibility(View.GONE);
-                                removedCount++;
-                            }
-                        }
-                    }
-                });
-
-            }
-            @Override
-            public void onError(Throwable t) {
-
-            }
-        });
+        joker.setText("Use 50/50 : " + jokerCounter + "/2");
         player.setText("Username: " + playerName);
+        round.setText("Current Round: " + newGame.getRound());
+        newGame.setCurrentPrize(newGame.getRound() * 100000);
+        currentPrize.setText("Current Prize: $" + newGame.getCurrentPrize());
+            qs.getQuestionsByDifficulty(1, new FetchQuestionCallback() {
+                @Override
+                public void onQuestionFetched(QuestionEntity questionEntity) {
+                    question.setText(questionEntity.getQuestion());
+                    for(int i = 0; i < questionEntity.getAnswers().size(); ++i){
+                        answer1.setText(questionEntity.getAnswers().get(0));
+                        answer2.setText(questionEntity.getAnswers().get(1));
+                        answer3.setText(questionEntity.getAnswers().get(2));
+                        answer4.setText(questionEntity.getAnswers().get(3));
+                    }
+                    answer1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            System.out.println(questionEntity.getAnswers().get(0));
+                            if(questionEntity.getCorrectAnswer() != questionEntity.getAnswers().indexOf(questionEntity.getAnswers().get(0))){
+                                System.out.println(newGame.getRound());
+                                Intent intent = new Intent(MainActivity2.this, GameOverActivity.class);
+                                gs.saveGame(playerId, newGame);
+                                newGame = new GameEntity(1);
+                                startActivity(intent);
+                            }else {
+                                        newGame.setRound(newGame.getRound() + 1);
+                                        newGame.setCurrentPrize(newGame.getRound() * 100000);
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                round.setText("Current Round: " + newGame.getRound());
+                                                currentPrize.setText("Current Prize: $" + newGame.getCurrentPrize());
+                                                finish();
+                                                overridePendingTransition(0, 0);
+                                                startActivity(getIntent());
+                                                overridePendingTransition(0, 0);
+                                            }
+                                        });
+                                    }
 
-        gs.getGameByPlayerId(playerId, new FetchGameCallback() {
-            @Override
-            public void onGameFetched(GameEntity gameEntity) {
-                round.setText("Current Round: " + gameEntity.getRound());
-                gameEntity.setCurrentPrize(gameEntity.getRound() * 100000);
-                currentPrize.setText("Current Prize: $" + gameEntity.getCurrentPrize());
-            }
-            @Override
-            public void onError(Throwable t) {
 
-            }
-        });
+                            }
+
+                    });
+                    answer2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            System.out.println(questionEntity.getAnswers().get(0));
+                            if(questionEntity.getCorrectAnswer() != questionEntity.getAnswers().indexOf(questionEntity.getAnswers().get(1))){
+                                System.out.println(newGame.getRound());
+                                gs.saveGame(playerId, newGame);
+                                Intent intent = new Intent(MainActivity2.this, GameOverActivity.class);
+
+                                newGame = new GameEntity(1);
+                                startActivity(intent);
+                            }else {
+                                newGame.setRound(newGame.getRound() + 1);
+                                newGame.setCurrentPrize(newGame.getRound() * 100000);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        round.setText("Current Round: " + newGame.getRound());
+                                        currentPrize.setText("Current Prize: $" + newGame.getCurrentPrize());
+                                        finish();
+                                        overridePendingTransition(0, 0);
+                                        startActivity(getIntent());
+                                        overridePendingTransition(0, 0);
+                                    }
+                                });
+                            }
 
 
+                        }
+
+                    });
+                    answer3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            System.out.println(questionEntity.getAnswers().get(0));
+                            if(questionEntity.getCorrectAnswer() != questionEntity.getAnswers().indexOf(questionEntity.getAnswers().get(2))){
+                                System.out.println(newGame.getRound());
+                                gs.saveGame(playerId, newGame);
+                                Intent intent = new Intent(MainActivity2.this, GameOverActivity.class);
+                                newGame = new GameEntity(1);
+                                startActivity(intent);
+                            }else {
+                                newGame.setRound(newGame.getRound() + 1);
+                                newGame.setCurrentPrize(newGame.getRound() * 100000);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        round.setText("Current Round: " + newGame.getRound());
+                                        currentPrize.setText("Current Prize: $" + newGame.getCurrentPrize());
+                                        finish();
+                                        overridePendingTransition(0, 0);
+                                        startActivity(getIntent());
+                                        overridePendingTransition(0, 0);
+                                    }
+                                });
+                            }
+
+                        }
+
+                    });
+                    answer4.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            System.out.println(questionEntity.getAnswers().get(0));
+                            if(questionEntity.getCorrectAnswer() != questionEntity.getAnswers().indexOf(questionEntity.getAnswers().get(3))){
+                                System.out.println(newGame.getRound());
+                                gs.saveGame(playerId, newGame);
+                                Intent intent = new Intent(MainActivity2.this, GameOverActivity.class);
+                                newGame = new GameEntity(1);
+                                startActivity(intent);
+                            }else {
+                                newGame.setRound(newGame.getRound() + 1);
+                                newGame.setCurrentPrize(newGame.getRound() * 100000);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        round.setText("Current Round: " + newGame.getRound());
+                                        currentPrize.setText("Current Prize: $" + newGame.getCurrentPrize());
+                                        finish();
+                                        overridePendingTransition(0, 0);
+                                        startActivity(getIntent());
+                                        overridePendingTransition(0, 0);
+                                    }
+                                });
+                            }
 
 
-    }
-}
+                        }
+
+                    });
+
+                    if(jokerCounter < 2){
+                        joker.setOnClickListener(new View.OnClickListener() {
+
+                            @Override
+                            public void onClick(View v) {
+                                int correctAnswer = questionEntity.getCorrectAnswer();
+                                List<Button> answerButtons = new ArrayList<>();
+                                answerButtons.add(answer1);
+                                answerButtons.add(answer2);
+                                answerButtons.add(answer3);
+                                answerButtons.add(answer4);
+                                int removedCount = 0;
+                                for(Button b : answerButtons){
+                                    if( answerButtons.indexOf(b) != correctAnswer && removedCount < 2){
+                                        b.setVisibility(View.GONE);
+                                        removedCount++;
+                                    }
+                                }
+                                jokerCounter++;
+                                joker.setVisibility(View.GONE);
+                            }
+                        });
+                    }
+                    if(jokerCounter > 1){
+                        joker.setVisibility(View.GONE);
+                    }
+
+
+                }
+                @Override
+                public void onError(Throwable t) {
+
+                }
+            });
+        }
+
+        }
+

@@ -44,19 +44,18 @@ public class GameService {
     }
 
 
-    public void startGame(String playerId) {
+    public void saveGame(String playerId, GameEntity game) {
         ExecutorService eS = Executors.newSingleThreadExecutor();
+        System.out.println(game.getRound() + "service");
         Handler handler = new Handler(Looper.getMainLooper());
         eS.execute(new Runnable() {
             @Override
             public void run() {
-                GameEntity game = new GameEntity(1);
                 JokerEntity joker = new JokerEntity(false);
                 game.setPlayerId(playerDao.getPlayerById(playerId).getPlayerId());
                 long gameId = gameDao.insertGame(game);
                 joker.setGameId((int)gameId);
                 jokerDao.inserJoker(joker);
-
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
