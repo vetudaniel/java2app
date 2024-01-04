@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import dao.PlayerEntityDao;
@@ -53,7 +54,17 @@ public class MainActivity2 extends AppCompatActivity {
         round.setText("Current Round: " + newGame.getRound());
         newGame.setCurrentPrize(newGame.getRound() * 100000);
         currentPrize.setText("Current Prize: $" + newGame.getCurrentPrize());
-            qs.getQuestionsByDifficulty(1, new FetchQuestionCallback() {
+        Random random = new Random();
+        int questionDifficulty = random.nextInt(3) + 1;
+
+        if(newGame.getRound() > 10){
+            Intent gameWonIntent = new Intent(MainActivity2.this, GamWonActivity.class);
+            overridePendingTransition(0, 0);
+            startActivity(gameWonIntent);
+            overridePendingTransition(0, 0);
+            ps.playerWon(playerId);
+        }
+            qs.getQuestionsByDifficulty(questionDifficulty, new FetchQuestionCallback() {
                 @Override
                 public void onQuestionFetched(QuestionEntity questionEntity) {
                     question.setText(questionEntity.getQuestion());
@@ -66,12 +77,12 @@ public class MainActivity2 extends AppCompatActivity {
                     answer1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            System.out.println(questionEntity.getAnswers().get(0));
                             if(questionEntity.getCorrectAnswer() != questionEntity.getAnswers().indexOf(questionEntity.getAnswers().get(0))){
-                                System.out.println(newGame.getRound());
                                 Intent intent = new Intent(MainActivity2.this, GameOverActivity.class);
                                 gs.saveGame(playerId, newGame);
                                 newGame = new GameEntity(1);
+                                jokerCounter = 0;
+                                ps.playerLost(playerId);
                                 startActivity(intent);
                             }else {
                                         newGame.setRound(newGame.getRound() + 1);
@@ -96,14 +107,13 @@ public class MainActivity2 extends AppCompatActivity {
                     answer2.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            System.out.println(questionEntity.getAnswers().get(0));
                             if(questionEntity.getCorrectAnswer() != questionEntity.getAnswers().indexOf(questionEntity.getAnswers().get(1))){
-                                System.out.println(newGame.getRound());
                                 gs.saveGame(playerId, newGame);
                                 Intent intent = new Intent(MainActivity2.this, GameOverActivity.class);
-
+                                jokerCounter = 0;
                                 newGame = new GameEntity(1);
-                                startActivity(intent);
+                                ps.playerLost(playerId);
+                               startActivity(intent);
                             }else {
                                 newGame.setRound(newGame.getRound() + 1);
                                 newGame.setCurrentPrize(newGame.getRound() * 100000);
@@ -127,13 +137,14 @@ public class MainActivity2 extends AppCompatActivity {
                     answer3.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            System.out.println(questionEntity.getAnswers().get(0));
                             if(questionEntity.getCorrectAnswer() != questionEntity.getAnswers().indexOf(questionEntity.getAnswers().get(2))){
                                 System.out.println(newGame.getRound());
                                 gs.saveGame(playerId, newGame);
                                 Intent intent = new Intent(MainActivity2.this, GameOverActivity.class);
                                 newGame = new GameEntity(1);
-                                startActivity(intent);
+                                ps.playerLost(playerId);
+                                jokerCounter = 0;
+                             startActivity(intent);
                             }else {
                                 newGame.setRound(newGame.getRound() + 1);
                                 newGame.setCurrentPrize(newGame.getRound() * 100000);
@@ -156,13 +167,13 @@ public class MainActivity2 extends AppCompatActivity {
                     answer4.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            System.out.println(questionEntity.getAnswers().get(0));
                             if(questionEntity.getCorrectAnswer() != questionEntity.getAnswers().indexOf(questionEntity.getAnswers().get(3))){
-                                System.out.println(newGame.getRound());
                                 gs.saveGame(playerId, newGame);
                                 Intent intent = new Intent(MainActivity2.this, GameOverActivity.class);
                                 newGame = new GameEntity(1);
-                                startActivity(intent);
+                                ps.playerLost(playerId);
+                                jokerCounter = 0;
+                          startActivity(intent);
                             }else {
                                 newGame.setRound(newGame.getRound() + 1);
                                 newGame.setCurrentPrize(newGame.getRound() * 100000);

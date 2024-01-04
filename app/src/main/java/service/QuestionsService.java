@@ -99,9 +99,10 @@ public class QuestionsService {
         ListenableFuture<QuestionEntity> futureQuestion = questionsDao.getQuestionsByDifficulty(difficulty);
         Futures.addCallback(futureQuestion, new FutureCallback<QuestionEntity>() {
             @Override
-            public void onSuccess(@Nullable QuestionEntity questions) {
-                if (questions != null) {
-                    callback.onQuestionFetched(questions);
+            public void onSuccess(@Nullable QuestionEntity question) {
+                if (question != null) {
+                    callback.onQuestionFetched(question);
+                    questionsDao.delete(question);
                 } else {
                     callback.onError(new Exception("Questions not found"));
                 }

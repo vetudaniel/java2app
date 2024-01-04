@@ -3,6 +3,7 @@ package dao;
 import android.content.ContentProviderClient;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -19,13 +20,16 @@ public interface QuestionEntityDao {
     @Query("SELECT * FROM questions")
     List<QuestionEntity> getAll();
 
+    @Delete
+    void delete(QuestionEntity question);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertQuestions(QuestionEntity... questions);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void saveAll(List<QuestionEntity> questions);
 
-    @Query("SELECT * FROM questions WHERE difficulty = :difficulty ORDER BY RANDOM() LIMIT 1")
+    @Query("SELECT DISTINCT * FROM questions WHERE difficulty = :difficulty ORDER BY RANDOM() LIMIT 1")
     ListenableFuture<QuestionEntity> getQuestionsByDifficulty(int difficulty);
 
 

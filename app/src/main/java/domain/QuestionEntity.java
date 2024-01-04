@@ -1,5 +1,7 @@
 package domain;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
@@ -10,8 +12,11 @@ import domain.typeconverters.AnswersListConverter;
 
 @Entity(tableName = "questions")
 public class QuestionEntity {
-    @PrimaryKey(autoGenerate = true)
     private int questionId;
+
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "question")
     private final String question;
     @TypeConverters(AnswersListConverter.class)
     public List<String> answers;
