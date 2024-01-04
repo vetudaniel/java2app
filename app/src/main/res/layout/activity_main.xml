@@ -63,6 +63,7 @@
         android:layout_marginBottom="29dp"
         android:text="Username already exists"
         android:visibility="gone"
+        android:textColor="#D32F2F"
         app:layout_constraintBottom_toTopOf="@+id/startGame"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

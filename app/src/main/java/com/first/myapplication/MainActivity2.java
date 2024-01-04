@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -41,6 +43,7 @@ public class MainActivity2 extends AppCompatActivity {
         String playerName = intent.getStringExtra("username");
         String playerId = intent.getStringExtra("playerId");
         TextView question = findViewById(R.id.question);
+        TextView questionDifficultyText = findViewById(R.id.questionDifficulty);
         TextView player = findViewById(R.id.playerName);
         TextView round = findViewById(R.id.round);
         TextView currentPrize = findViewById(R.id.currentPrize);
@@ -56,6 +59,7 @@ public class MainActivity2 extends AppCompatActivity {
         currentPrize.setText("Current Prize: $" + newGame.getCurrentPrize());
         Random random = new Random();
         int questionDifficulty = random.nextInt(3) + 1;
+        questionDifficultyText.setText("Question Difficulty: " + questionDifficulty);
 
         if(newGame.getRound() > 10){
             Intent gameWonIntent = new Intent(MainActivity2.this, GamWonActivity.class);
