@@ -8,7 +8,6 @@ import androidx.room.Room;
 import db.AppDatabase;
 
 public class App extends Application {
-    private AppDatabase db;
 
     private static  AppDatabase dbInstance;
 
