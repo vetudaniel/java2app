@@ -22,7 +22,7 @@ public class App extends Application {
         if (dbInstance == null) {
             dbInstance = Room.databaseBuilder(
                     context.getApplicationContext(),
-                    AppDatabase.class, // Replace with your actual database class
+                    AppDatabase.class,
                     "millionaire"
             ).build();
         }
