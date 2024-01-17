@@ -8,8 +8,6 @@ import androidx.room.Query;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import domain.GameEntity;
-import domain.QuestionEntity;
-import service.GameService;
 
 @Dao
 public interface GameEntityDao {

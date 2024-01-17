@@ -35,6 +35,8 @@ public class MainActivity2 extends AppCompatActivity {
     static GameEntity newGame = new GameEntity(1);
     static int jokerCounter = 0;
 
+    private static int questionDifficulty = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,8 +59,6 @@ public class MainActivity2 extends AppCompatActivity {
         round.setText("Current Round: " + newGame.getRound());
         newGame.setCurrentPrize(newGame.getRound() * 100000);
         currentPrize.setText("Current Prize: $" + newGame.getCurrentPrize());
-        Random random = new Random();
-        int questionDifficulty = random.nextInt(3) + 1;
         questionDifficultyText.setText("Question Difficulty: " + questionDifficulty);
 
         if(newGame.getRound() > 10){
@@ -85,11 +85,18 @@ public class MainActivity2 extends AppCompatActivity {
                                 Intent intent = new Intent(MainActivity2.this, GameOverActivity.class);
                                 gs.saveGame(playerId, newGame);
                                 newGame = new GameEntity(1);
+                                questionDifficulty = 1;
                                 jokerCounter = 0;
                                 ps.playerLost(playerId);
                                 startActivity(intent);
                             }else {
                                         newGame.setRound(newGame.getRound() + 1);
+                                        if(newGame.getRound() > 3){
+                                            questionDifficulty +=1;
+                                        }
+                                if(newGame.getRound() > 6){
+                                    questionDifficulty +=1;
+                                }
                                         newGame.setCurrentPrize(newGame.getRound() * 100000);
                                         runOnUiThread(new Runnable() {
                                             @Override
@@ -115,11 +122,18 @@ public class MainActivity2 extends AppCompatActivity {
                                 gs.saveGame(playerId, newGame);
                                 Intent intent = new Intent(MainActivity2.this, GameOverActivity.class);
                                 jokerCounter = 0;
+                                questionDifficulty = 1;
                                 newGame = new GameEntity(1);
                                 ps.playerLost(playerId);
                                startActivity(intent);
                             }else {
                                 newGame.setRound(newGame.getRound() + 1);
+                                if(newGame.getRound() > 3){
+                                    questionDifficulty +=1;
+                                }
+                                if(newGame.getRound() > 6){
+                                    questionDifficulty +=1;
+                                }
                                 newGame.setCurrentPrize(newGame.getRound() * 100000);
                                 runOnUiThread(new Runnable() {
                                     @Override
@@ -148,9 +162,16 @@ public class MainActivity2 extends AppCompatActivity {
                                 newGame = new GameEntity(1);
                                 ps.playerLost(playerId);
                                 jokerCounter = 0;
+                                questionDifficulty = 1;
                              startActivity(intent);
                             }else {
                                 newGame.setRound(newGame.getRound() + 1);
+                                if(newGame.getRound() > 3){
+                                    questionDifficulty +=1;
+                                }
+                                if(newGame.getRound() > 6){
+                                    questionDifficulty +=1;
+                                }
                                 newGame.setCurrentPrize(newGame.getRound() * 100000);
                                 runOnUiThread(new Runnable() {
                                     @Override
@@ -177,9 +198,16 @@ public class MainActivity2 extends AppCompatActivity {
                                 newGame = new GameEntity(1);
                                 ps.playerLost(playerId);
                                 jokerCounter = 0;
+                                questionDifficulty = 1;
                           startActivity(intent);
                             }else {
                                 newGame.setRound(newGame.getRound() + 1);
+                                if(newGame.getRound() > 3){
+                                    questionDifficulty +=1;
+                                }
+                                if(newGame.getRound() > 6){
+                                    questionDifficulty +=1;
+                                }
                                 newGame.setCurrentPrize(newGame.getRound() * 100000);
                                 runOnUiThread(new Runnable() {
                                     @Override

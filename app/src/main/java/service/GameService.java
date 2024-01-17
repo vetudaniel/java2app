@@ -46,7 +46,6 @@ public class GameService {
 
     public void saveGame(String playerId, GameEntity game) {
         ExecutorService eS = Executors.newSingleThreadExecutor();
-        System.out.println(game.getRound() + "service");
         Handler handler = new Handler(Looper.getMainLooper());
         eS.execute(new Runnable() {
             @Override
